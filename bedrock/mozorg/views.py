@@ -263,7 +263,8 @@ class Robots(TemplateView):
 
 class HomeTestView(TemplateView):
     """Home page view that will use a different template for a QS."""
-    template_name = 'mozorg/home.html'
+
+    template_name = 'mozorg/home/home.html'
 
     def post(self, request, *args, **kwargs):
         # required for newsletter form post that is handled in newsletter/helpers.py

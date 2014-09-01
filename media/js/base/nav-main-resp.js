@@ -79,11 +79,21 @@ NavMain.mainMenuLinks = null;
  */
 NavMain.toggleButton = null;
 
+
+/**
+ * Main menu mobile breakpoint
+ *
+ * @var number
+ */
+NavMain.breakPoint = 760;
+
 NavMain.init = function()
 {
     NavMain.toggleButton = $('#masthead .toggle');
     NavMain.mainMenuItems = $('#nav-main .has-submenus > li');
     NavMain.mainMenuLinks = $('#nav-main ul > li > [tabindex="0"]');
+
+    NavMain.breakPoint = NavMain.toggleButton.data('breakPoint') || NavMain.breakPoint;
 
     NavMain.mainMenuItems
         .bind('mouseover focusin', NavMain.handleFocusIn)
@@ -235,11 +245,11 @@ NavMain.handleResize = function()
 {
     var width = $(window).width();
 
-    if (width <= 760 && !NavMain.smallMode) {
+    if (width <= NavMain.breakPoint && !NavMain.smallMode) {
         NavMain.enterSmallMode();
     }
 
-    if (width > 760 && NavMain.smallMode) {
+    if (width > NavMain.breakPoint && NavMain.smallMode) {
         NavMain.leaveSmallMode();
     }
 };

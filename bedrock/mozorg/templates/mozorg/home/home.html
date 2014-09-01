@@ -1,0 +1,292 @@
+{# This Source Code Form is subject to the terms of the Mozilla Public
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/. -#}
+
+{% extends "mozorg/base-resp.html" %}
+
+{% add_lang_files "mozorg/home-open-standard" %}
+
+{% block page_title %}{{_('Home of the Mozilla Project')}}{% endblock %}
+{% block body_id %}home{% endblock %}
+{% block body_class %}lang-{{ LANG }}{% endblock %}
+
+{% block extra_meta %}
+<!-- validates bing webmaster tools -->
+<meta name="msvalidate.01" content="B7B177115A634927D608514DA17B2574" />
+<!-- YouTube Verification -->
+<meta name="google-site-verification" content="Mef8xJZ1-faaN2AdGdCfRFo5VeoXOSxjXNIzMsxcx94" />
+{% endblock %}
+
+{% block string_data %}{% endblock %}
+
+{% block extrahead %}
+  {{ css('home-voices') }}
+  <!--[if lte IE 8]>
+    {{ css('home-voices-ie8') }}
+  <![endif]-->
+{% endblock %}
+
+{% block js %}
+  <!--[if IE 9]>
+    {{ js('home-voices-ie9') }}
+  <![endif]-->
+  {{ js('home-voices') }}
+
+  {# Open Standard module is only shown to English languages #}
+  {% if LANG in ['en-GB', 'en-US', 'en-ZA'] %}
+    {{ js('home-open-standard') }}
+  {% endif %}
+{% endblock %}
+
+{% set faces = [
+  (url('mozorg.contribute'), '01'),
+  (url('mozorg.contribute'), '02'),
+  (url('mozorg.contribute'), '03'),
+  (url('mozorg.contribute'), '04'),
+  (url('mozorg.contribute'), '05'),
+  (url('mozorg.contribute'), '06'),
+  (url('mozorg.contribute'), '07'),
+  (url('mozorg.contribute'), '08'),
+  (url('mozorg.contribute'), '09'),
+  (url('mozorg.contribute'), '10'),
+  (url('mozorg.contribute'), '11'),
+]|shuffle -%}
+
+{% macro promo_face(content_id) %}
+  <a href="{{ faces[content_id][0] }}">
+    <div class="face-outer">
+      <div class="face face-{{ faces[content_id][1] }}"></div>
+    </div>
+  </a>
+{%- endmacro %}
+
+{% block site_header %}{% endblock %}
+
+{% block content %}
+<main role="main">
+  <header id="masthead">
+    <div class="container">
+      <a href="{{ url('mozorg.home') }}" id="tabzilla" data-infobar="{{ settings.TABZILLA_INFOBAR_OPTIONS }}">Mozilla</a>
+
+      <nav id="nav-main" role="navigation">
+        <span class="toggle" role="button" aria-controls="nav-main-menu" aria-expanded="false" tabindex="0" data-break-point="820">{{_('Menu')}}</span>
+        <ul id="nav-main-menu">
+          <li><a href="{{ url('mozorg.contribute') }}">{{_('Volunteer')}}</a></li>
+          <li><a href="{{ url('mozorg.mission') }}">{{_('Our Mission')}}</a></li>
+          <li><a href="{{ url('firefox.desktop.index') }}">{{_('Firefox')}}</a></li>
+        </ul>
+      </nav>
+      <h1>{{ high_res_img('img/home/voices/mozilla-wordmark-white.png', {'alt': 'Mozilla', 'width': '313', 'height': '82'}) }}</h1>
+    </div>
+    <!-- <div id="welcome-overlay"></div> -->
+  </header>
+
+  <section class="promo-grid-wrapper">
+    <div class="promo-grid-inner">
+      <ul class="promo-grid">
+        {# L10n: Line breaks below are for visual formatting only. #}
+        {% if LANG in ['en-GB', 'en-US', 'en-ZA'] %}
+          <li id="promo-1" class="item promo-large-portrait open-standard" tabindex="0">
+            <h2 class="primary go">{{ _('See why <br>open systems matter') }}</h2>
+            <a class="panel-link" href="#">
+              <div class="secondary">
+                <h3>{{ _('Learn about <br>the power <br>they have to connect people.') }}</h3>
+                <p class="more">{{ _('Read the Open Standard') }}</p>
+              </div>
+            </a>
+          </li>
+        {% else %}
+          <li id="promo-1" class="item promo-large-portrait mission" tabindex="0">
+            <h2 class="primary go">{{ _('Discover <br>what drives our mission') }}</h2>
+            <a class="panel-link" href="{{ url('mozorg.about.manifesto') }}">
+              <div class="secondary">
+                <h3>{{ _('See the principles <br>that guide everything <br>we do.') }}</h3>
+                <p class="more">{{ _('Read the <br>Mozilla Manifesto') }}</p>
+              </div>
+            </a>
+          </li>
+        {% endif %}
+        <li id="promo-2" class="item promo-small-landscape privacy">
+          <a class="panel-link" href="{{ url('privacy.privacy-day') }}">
+            <h2>{{ _('Understand <br>your privacy <br>online') }}</h2>
+          </a>
+        </li>
+        <li id="promo-3" class="item promo-face first">
+          {{ promo_face(1) }}
+        </li>
+        <li id="promo-4" class="item promo-face">
+          {{ promo_face(2) }}
+        </li>
+        <li id="promo-5" class="item promo-small-landscape firefox-download" tabindex="0">
+          <div class="primary">
+            <h2 class="go">{{ _('Download Firefox') }}</h2>
+            <img src="{{ media('img/home/voices/promos/download-firefox/firefox-logo.png') }}" alt="">
+          </div>
+          <div class="secondary">
+            {{ download_firefox(simple=true) }}
+          </div>
+        </li>
+        <li id="promo-6" class="item promo-large-landscape teach" tabindex="0">
+          <h2 class="primary go">{{ _('Teach the Web') }}</h2>
+          <a class="panel-link" href="https://webmaker.org/">
+            <div class="secondary">
+              <h3>Let’s build a Web that’s open <br>and made by everyone.</h3>
+              <p class="more">{{ _('Become a Webmaker') }}</p>
+            </div>
+          </a>
+        </li>
+        <li id="promo-7" class="item promo-face space-left">
+          {{ promo_face(3) }}
+        </li>
+        <li id="promo-8" class="item promo-small-landscape build-app">
+          <a class="panel-link" href="https://webmaker.org/appmaker">
+            <h2>{{ _('Build an app <br>in seconds') }}</h2>
+          </a>
+        </li>
+        <li id="promo-9" class="item promo-small-landscape volunteer">
+          <a class="panel-link" href="{{ url('mozorg.contribute') }}">
+            <h2>{{ _('Volunteer <br>with Mozilla') }}</h2>
+          </a>
+        </li>
+        <li id="promo-10" class="item promo-large-portrait android" tabindex="0">
+          <h2 class="primary go">{{ _('Make your Android uniquely yours') }}</h2>
+          <a class="panel-link" href="{{ url('firefox.android.index') }}">
+            <div class="secondary">
+              <h3>{{ _('We make it Firefox. You make it your own.') }}</h3>
+              <p class="more">{{ _('Learn about <br>Firefox for Android') }}</p>
+            </div>
+          </a>
+        </li>
+        {% if LANG in ['en-GB', 'en-US', 'en-ZA'] %}
+          <li id="promo-11" class="item promo-large-landscape gear-store" tabindex="0">
+            <h2 class="primary go">{{ _('Get Mozilla gear') }}</h2>
+            <a class="panel-link" href="https://gear.mozilla.org/">
+              <div class="secondary">
+                <h3>{{ _('Buy clothes, bags, mugs <br>(and more) and help <br>support our mission.') }}</h3>
+                <p class="more">{{ _('Visit Mozilla Gear') }}</p>
+              </div>
+            </a>
+          </li>
+        {% else %}
+          <li id="promo-11" class="item promo-large-landscape support" tabindex="0">
+            <h2 class="primary go">{{ _('Help Mozilla users') }}</h2>
+            <a class="panel-link" href="https://support.mozilla.org/get-involved">
+              <div class="secondary">
+                <h3>{{ _('Help millions get the most from their favorite browser.') }}</h3>
+                <p class="more">{{ _('Join our support team') }}</p>
+              </div>
+            </a>
+          </li>
+        {% endif %}
+        <li id="promo-12" class="item promo-face">
+          {{ promo_face(4) }}
+        </li>
+        <li id="promo-13" class="item promo-face">
+          {{ promo_face(5) }}
+        </li>
+        <li id="promo-14" class="item promo-face space-left">
+          {{ promo_face(6) }}
+        </li>
+        <li id="promo-15" class="item promo-face">
+          {{ promo_face(7) }}
+        </li>
+        <li id="promo-16" class="item promo-small-landscape twt">
+          <div class="twt-container">
+            <a class="twt-text" href="#">There are many ways to get involved in Mozilla! Here are some ranging from user support to software development.</a>
+            <div class="twt-actions">
+              <a href="#" class="twt-reply" title="{{ _('Reply') }}">{{ _('Reply') }}</a>
+              <a href="#" class="twt-rt" title="{{ _('Retweet') }}">{{ _('Retweet') }}</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="faces-grid-inner"></div>
+  </section>
+
+  <section class="module" id="firefox-download-section">
+    <div class="container">
+      <header>
+        <a href="{{ url('firefox') }}" id="firefox-promo-link">
+          <h3><img src="{{ MEDIA_URL }}img/home/voices/firefox-logo-wordmark-white.png" alt="Firefox"></h3>
+          {# L10n: Line break below is for visual formatting only. #}
+          <h4>{{_('Committed to you, your <br>privacy and an open Web')}}</h4>
+        </a>
+      </header>
+      {{ download_firefox(simple=true) }}
+    </div>
+  </section>
+
+  {# Open Standard module is only shown to English languages #}
+  {% if LANG in ['en-GB', 'en-US', 'en-ZA'] %}
+    {% include 'mozorg/home/includes/open-standard.html' %}
+  {% endif %}
+
+  <section class="module" id="community">
+    <div class="container">
+      <ul>
+        <li>
+          <span class="stat organizations">5000</span>
+          {# L10n: This label is preceeded by a numeric count before the translation. #}
+          {# L10n: Line break below is for visual formatting only. #}
+          <span>{{ _('Organizations, annually <br>backing the open web') }}</span>
+        </li>
+        <li>
+          <span class="stat contributors">150,000</span>
+          {# L10n: This label is preceeded by a numeric count before the translation. #}
+          {# L10n: Line break below is for visual formatting only. #}
+          <span>{{ _('Contributors <br>just like you') }}</span>
+        </li>
+        <li>
+          <span class="stat countries">180</span>
+          {# L10n: This label is preceeded by a numeric count before the translation. #}
+          {# L10n: Line break below is for visual formatting only. #}
+          <span>{{ _('Countries and <br>counting') }}</span>
+        </li>
+      </ul>
+
+      <a class="contribute" href="{{ url('mozorg.contribute') }}">{{ _('Get Involved with Mozilla today') }}</a>
+    </div>
+  </section>
+
+  {% include 'mozorg/home/includes/upcoming-events.html' %}
+
+  <section class="module" id="secondary-links">
+    <div class="container">
+      <ul>
+        <li>
+          <a class="add-ons" href="https://addons.mozilla.org/">
+            <h2>{{ _('Add-ons') }}</h2>
+            <p>{{ _('Compare prices, check the weather, listen to music, send a tweet and more right from Firefox.') }}</p>
+          </a>
+        </li>
+        <li>
+          <a class="careers" href="https://careers.mozilla.org/">
+            <h2>{{ _('Careers') }}</h2>
+            <p>{{ _('Learn about the benefits of working at Mozilla and view open positions around the world.') }}</p>
+          </a>
+        </li>
+        <li>
+          <a class="help" href="https://sumo.mozilla.org/">
+            <h2>{{ _('Need help?') }}</h2>
+            <p>{{ _('Get answers to your questions about Firefox and all Mozilla products from our support team.') }}</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="module" id="newsletter-signup">
+    <div class="container">
+      {% if LANG == 'en-US' %}
+        {{ mozorg_newsletter_form() }}
+      {% else %}
+        {{ email_newsletter_form() }}
+      {% endif %}
+    </div>
+  </section>
+</main>
+
+{% endblock %}
+
+{% block email_form %}{% endblock %}
